@@ -1,0 +1,87 @@
+[
+  {
+    "id": "site",
+    "state": "implemented-static",
+    "contract": "modules/site/README.md"
+  },
+  {
+    "id": "content",
+    "state": "implemented-static",
+    "contract": "modules/content/README.md"
+  },
+  {
+    "id": "seo",
+    "state": "implemented-static",
+    "contract": "modules/seo/README.md"
+  },
+  {
+    "id": "construction",
+    "state": "planned",
+    "contract": "modules/construction/README.md"
+  },
+  {
+    "id": "donations",
+    "state": "planned",
+    "contract": "modules/donations/README.md"
+  },
+  {
+    "id": "reporting",
+    "state": "planned",
+    "contract": "modules/reporting/README.md"
+  },
+  {
+    "id": "identity",
+    "state": "planned",
+    "contract": "modules/identity/README.md"
+  },
+  {
+    "id": "admissions",
+    "state": "planned",
+    "contract": "modules/admissions/README.md"
+  },
+  {
+    "id": "learning",
+    "state": "planned",
+    "contract": "modules/learning/README.md"
+  },
+  {
+    "id": "files",
+    "state": "planned",
+    "contract": "modules/files/README.md"
+  },
+  {
+    "id": "video",
+    "state": "planned",
+    "contract": "modules/video/README.md"
+  },
+  {
+    "id": "notifications",
+    "state": "planned",
+    "contract": "modules/notifications/README.md"
+  },
+  {
+    "id": "billing",
+    "state": "planned",
+    "contract": "modules/billing/README.md"
+  },
+  {
+    "id": "onboarding",
+    "state": "planned",
+    "contract": "modules/onboarding/README.md"
+  },
+  {
+    "id": "platform-admin",
+    "state": "planned",
+    "contract": "modules/platform-admin/README.md"
+  },
+  {
+    "id": "usage",
+    "state": "planned",
+    "contract": "modules/usage/README.md"
+  },
+  {
+    "id": "data-export",
+    "state": "planned",
+    "contract": "modules/data-export/README.md"
+  }
+]
