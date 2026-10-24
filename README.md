@@ -4,7 +4,7 @@
 ## GitHub Pages
 Репозиторий: https://github.com/a6340374-stack/medrese-sibai
 
-Адрес для публикации: https://a6340374-stack.github.io/medrese-sibai/
+Опубликованный сайт: https://a6340374-stack.github.io/medrese-sibai/
 
 Workflow `.github/workflows/pages.yml` собирает и проверяет сайт, затем публикует только `dist`. Запускается при отправке в `main` или вручную через Actions. Адрес и префикс проекта берутся из настроек Pages. Исходные материалы и документация в публикуемый сайт не попадают.
 
