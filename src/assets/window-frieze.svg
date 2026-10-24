@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="44" viewBox="0 0 56 44" fill="none">
+  <!-- Decorative interpretation of the college's tall arched windows. -->
+  <path d="M15 40V19C15 11 21 6 28 3c7 3 13 8 13 16v21Z" fill="#f7f6ef" fill-opacity=".7" stroke="#967447" stroke-linejoin="round"/>
+  <g stroke="#52645a" stroke-opacity=".65" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 37V20c0-6 4-10 9-13 5 3 9 7 9 13v17Z"/>
+    <path d="M28 7v30M19 22h18M19 33h18"/>
+  </g>
+</svg>

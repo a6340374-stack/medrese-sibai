@@ -58,6 +58,7 @@ class Page(HTMLParser):
 def check(output):
     output = Path(output)
     info = json.loads((output / "build-info.json").read_text(encoding="utf-8"))
+    base_path = info.get("base_path", "")
     parsed, errors = {}, []
     for file in sorted(output.rglob("*.html")):
         parser = Page()
@@ -93,7 +94,13 @@ def check(output):
             url = urlsplit(ref)
             if url.scheme or url.netloc:
                 continue
-            target = output / unquote(url.path.lstrip("/")) if url.path.startswith("/") else output / Path(relative).parent / unquote(url.path)
+            local_path = url.path
+            if local_path.startswith("/") and base_path:
+                if not local_path.startswith(base_path + "/"):
+                    errors.append(f"{relative}: ссылка вне пути проекта: {ref}")
+                    continue
+                local_path = local_path[len(base_path):]
+            target = output / unquote(local_path.lstrip("/")) if local_path.startswith("/") else output / Path(relative).parent / unquote(local_path)
             if not url.path:
                 target = output / relative
             if target.is_dir():

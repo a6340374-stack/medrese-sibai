@@ -17,12 +17,12 @@ def validate_origin(value):
     host = parsed.hostname or ""
     if (parsed.scheme != "https" or not host or "." not in host
             or parsed.username or parsed.password or parsed.query or parsed.fragment
-            or parsed.path not in ("", "/") or parsed.port
+            or not re.fullmatch(r"(?:/[A-Za-z0-9_-]+)*/?", parsed.path) or parsed.port
             or host in {"localhost", "example.com", "example.org", "example.net"}
             or host.endswith((".test", ".invalid", ".localhost", ".example"))
             or re.fullmatch(r"[0-9.]+", host)):
-        raise ValueError("Укажите реальный HTTPS-домен без пути, порта и параметров.")
-    return f"https://{host.encode('idna').decode('ascii')}"
+        raise ValueError("Укажите реальный HTTPS-домен с необязательным путём проекта, без порта и параметров.")
+    return f"https://{host.encode('idna').decode('ascii')}{parsed.path.rstrip('/')}"
 
 
 def render(template, values):
@@ -41,6 +41,7 @@ def build(public=False, origin="", output=None):
     site = json.loads((ROOT / "content/site.json").read_text(encoding="utf-8"))
     pages = json.loads((ROOT / "content/pages.json").read_text(encoding="utf-8"))
     origin = validate_origin(origin or site["site_url"]) if public else ""
+    base_path = urllib.parse.urlsplit(origin).path
     output = Path(output) if output else ROOT / "dist"
     output.mkdir(parents=True, exist_ok=True)
     manifest = output / ".build-manifest.json"
@@ -72,6 +73,9 @@ def build(public=False, origin="", output=None):
         url_meta, schema = "", ""
         if public and not is_error:
             url_meta = f'<link rel="canonical" href="{escape(origin + path)}">\n<meta property="og:url" content="{escape(origin + path)}">'
+            url_meta += f'\n<meta property="og:image" content="{escape(origin)}/assets/images/college-photo-1.jpg">'
+            url_meta += '\n<meta property="og:image:width" content="1280"><meta property="og:image:height" content="960">'
+            url_meta += '\n<meta property="og:image:alt" content="Здание Исламского колледжа в Сибае"><meta name="twitter:card" content="summary_large_image">'
             nodes = [
                 {"@type": "WebSite", "@id": origin + "/#website", "url": origin + "/", "name": site["name"], "inLanguage": "ru"},
                 {"@type": "WebPage", "@id": origin + path + "#webpage", "url": origin + path,
@@ -88,12 +92,17 @@ def build(public=False, origin="", output=None):
         body = (ROOT / "src/pages" / page["source"]).read_text(encoding="utf-8")
         body = body.replace("{{contact_details}}", "\n".join(contact))
         values = {"title": escape(page["title"]), "description": escape(page["description"]),
+                  "site_name": escape(site["name"]), "short_name": escape(site["short_name"]),
+                  "brand_caption": escape(site["brand_caption"]),
                   "robots": "index, follow" if public and not is_error else "noindex, nofollow",
                   "url_meta": url_meta, "schema": schema, "body": body,
                   "navigation": "".join(navigation), "year": dt.datetime.now(dt.timezone(dt.timedelta(hours=3))).year}
         target = output / "404.html" if is_error else output / page["slug"] / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(render(template, values), encoding="utf-8")
+        rendered = render(template, values)
+        if base_path:
+            rendered = re.sub(r'''((?:href|src)=["'])/(?!/)''', lambda match: match[1] + base_path + "/", rendered)
+        target.write_text(rendered, encoding="utf-8")
         generated.add(target.relative_to(output).as_posix())
     robots = "User-agent: *\nDisallow: /\n"
     sitemap_path = output / "sitemap.xml"
@@ -113,7 +122,7 @@ def build(public=False, origin="", output=None):
     elif sitemap_path.exists():
         sitemap_path.unlink()
     (output / "robots.txt").write_text(robots, encoding="utf-8")
-    (output / "build-info.json").write_text(json.dumps({"public": public, "origin": origin, "pages": len(pages)}, ensure_ascii=False), encoding="utf-8")
+    (output / "build-info.json").write_text(json.dumps({"public": public, "origin": origin, "base_path": base_path, "pages": len(pages)}, ensure_ascii=False), encoding="utf-8")
     for old in set(previous) - generated:
         stale = (output / old).resolve()
         if output.resolve() not in stale.parents:

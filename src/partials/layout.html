@@ -9,7 +9,7 @@
   <meta name="robots" content="{{robots}}">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Медресе в Сибае">
+  <meta property="og:site_name" content="{{site_name}}">
   <meta property="og:title" content="{{title}}">
   <meta property="og:description" content="{{description}}">
   {{url_meta}}
@@ -21,22 +21,22 @@
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header wrap">
-    <a class="brand" href="/" aria-label="Медресе в Сибае — главная">
+    <a class="brand" href="/" aria-label="{{site_name}} — главная">
       <img src="/assets/mark.svg" width="42" height="48" alt="">
-      <span>Медресе в Сибае<small>Республика Башкортостан</small></span>
+      <span>{{short_name}}<small>{{brand_caption}}</small></span>
     </a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="navigation" hidden>Меню</button>
     <nav id="navigation" class="navigation" aria-label="Основная навигация">{{navigation}}</nav>
-    <a class="header-support" href="/support/">Поддержать проект <span aria-hidden="true">↗</span></a>
+    <a class="header-support" href="/support/">Поддержать проект</a>
   </header>
   <main id="main" tabindex="-1">{{body}}</main>
   <footer class="site-footer">
     <div class="wrap footer-main">
-      <a class="brand footer-brand" href="/"><img src="/assets/mark-light.svg" width="42" height="48" alt=""><span>Медресе в Сибае<small>Место для знания и общины</small></span></a>
-      <nav aria-label="Навигация в подвале"><a href="/about/">О медресе</a><a href="/construction/">Строительство</a><a href="/education/">Будущее обучение</a><a href="/reports/">Отчётность</a><a href="/contacts/">Контакты</a></nav>
+      <a class="brand footer-brand" href="/"><img src="/assets/mark-light.svg" width="42" height="48" alt=""><span>{{short_name}}<small>{{brand_caption}}</small></span></a>
+      <nav aria-label="Навигация в подвале"><a href="/about/">О колледже</a><a href="/construction/">Строительство</a><a href="/education/">Будущее обучение</a><a href="/reports/">Отчётность</a><a href="/contacts/">Контакты</a></nav>
       <p>Сибай<br>Республика Башкортостан</p>
     </div>
-    <div class="wrap footer-bottom"><span>© {{year}} Медресе в Сибае</span><span>С заботой о будущем образования</span></div>
+    <div class="wrap footer-bottom"><span>© {{year}} {{short_name}} · Сибай</span><span>С заботой о будущем образования</span></div>
   </footer>
 </body>
 </html>
